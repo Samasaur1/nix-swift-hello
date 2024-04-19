@@ -1,3 +1,11 @@
 import Cocoa
+import ArgumentParser
 
-print("Hello, world!")
+@main
+struct Hello: ParsableCommand {
+    let text = "Hello, world!"
+
+    func run() throws {
+        print(self.text)
+    }
+}

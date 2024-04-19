@@ -1,9 +1,9 @@
-{ lib, stdenv, swift, swiftpm, swiftpm2nix, darwin, overrideSDK, ... }:
+{ lib, swift, swiftpm, swiftpm2nix, darwin, overrideSDK, swiftPackages, ... }:
 
 let
   # Pass the generated files to the helper.
   generated = swiftpm2nix.helpers ./nix;
-  stdenv' = overrideSDK stdenv "11.0";
+  stdenv' = overrideSDK swiftPackages.stdenv "11.0";
 in
 
 stdenv'.mkDerivation {
@@ -33,6 +33,9 @@ stdenv'.mkDerivation {
     mkdir -p $out/bin
     cp $binPath/hello $out/bin/
   '';
+
+  # Allegedly this should work when XCTest is in buildInputs, but it doesn't
+  # doCheck = true;
   
   meta = with lib; {
     platforms = platforms.darwin;
