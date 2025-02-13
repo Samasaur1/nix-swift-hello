@@ -3,9 +3,10 @@
 let
   # Pass the generated files to the helper.
   generated = swiftpm2nix.helpers ./nix;
+  stdenv = swiftPackages.stdenv;
 in
 
-swiftPackages.stdenv.mkDerivation {
+stdenv.mkDerivation {
   pname = "hello";
   version = "1.0.0";
 
@@ -28,6 +29,12 @@ swiftPackages.stdenv.mkDerivation {
     mkdir -p $out/bin
     cp $binPath/hello $out/bin/
   '';
+
+  LD_LIBRARY_PATH = lib.optionalString stdenv.hostPlatform.isLinux (
+    lib.makeLibraryPath [
+      swiftPackages.Dispatch
+    ]
+  );
 
   # Allegedly this should work when XCTest is in buildInputs, but it doesn't
   # doCheck = true;
