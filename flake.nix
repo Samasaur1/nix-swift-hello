@@ -11,8 +11,10 @@
     in {
       packages = forAllSystems (pkgs: { default = pkgs.callPackage ./. { }; });
 
-      devShells = forAllSystems (pkgs: { default = pkgs.mkShell {
-        buildInputs = [ pkgs.swift pkgs.swiftpm pkgs.swiftpm2nix pkgs.swiftPackages.Foundation ];
-      }; });
+      devShells = forAllSystems (pkgs: {
+        default = pkgs.mkShell.override { inherit (pkgs.swiftPackages) stdenv; } {
+          buildInputs = [ pkgs.swift pkgs.swiftpm pkgs.swiftpm2nix pkgs.swiftPackages.Foundation ];
+        };
+      });
     };
 }
