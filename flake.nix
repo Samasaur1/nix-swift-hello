@@ -10,5 +10,9 @@
         (system: gen nixpkgs.legacyPackages.${system});
     in {
       packages = forAllSystems (pkgs: { default = pkgs.callPackage ./. { }; });
+
+      devShells = forAllSystems (pkgs: { default = pkgs.mkShell {
+        buildInputs = [ pkgs.swift pkgs.swiftpm pkgs.swiftpm2nix pkgs.swiftPackages.Foundation ];
+      }; });
     };
 }
