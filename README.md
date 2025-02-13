@@ -4,22 +4,11 @@ This repository is designed to be a template for Nix-packaged Swift Package Mana
 
 ### Adding Apple libraries:
 
-Find apple libraries using `nix repl`:
-```
-$ nix repl
-nix-repl> :lf nixpkgs
-Added 15 variables
+You don't need to do anything to add libraries in the SDK. Just import them in Swift.
 
-nix-repl> legacyPackages.aarch64-darwin.darwin.apple_sdk.frameworks.<TAB>
-<a long list of frameworks>
-```
-and then add them to `buildInputs`:
-```nix
-buildInputs = [
-    darwin.apple_sdk.frameworks.Cocoa
-    darwin.apple_sdk.frameworks.SwiftUI
-];
-```
+That said, if you *do* import Apple libraries, you'll want to update `default.nix` to note that the supported platforms are only Darwin.
+
+You may also need to add a newer version of the SDK to `buildInputs`, since nixpkgs defaults to an older version of the SDK
 
 ### Adding SPM packages:
 
