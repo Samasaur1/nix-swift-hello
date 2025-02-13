@@ -1,12 +1,11 @@
-{ lib, swift, swiftpm, swiftpm2nix, darwin, overrideSDK, swiftPackages, ... }:
+{ lib, swift, swiftpm, swiftpm2nix, swiftPackages, ... }:
 
 let
   # Pass the generated files to the helper.
   generated = swiftpm2nix.helpers ./nix;
-  stdenv' = overrideSDK swiftPackages.stdenv "11.0";
 in
 
-stdenv'.mkDerivation {
+swiftPackages.stdenv.mkDerivation {
   pname = "hello";
   version = "1.0.0";
 
@@ -16,10 +15,6 @@ stdenv'.mkDerivation {
   # This by default performs a release build using SwiftPM, essentially:
   #   swift build -c release
   nativeBuildInputs = [ swift swiftpm ];
-
-  buildInputs = [
-    darwin.apple_sdk.frameworks.Cocoa
-  ];
 
   # The helper provides a configure snippet that will prepare all dependencies
   # in the correct place, where SwiftPM expects them.
@@ -38,6 +33,6 @@ stdenv'.mkDerivation {
   # doCheck = true;
   
   meta = with lib; {
-    platforms = platforms.darwin;
+    platforms = platforms.all;
   };
 }

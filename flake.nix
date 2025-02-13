@@ -1,6 +1,8 @@
 {
   description = "An example Swift package";
 
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+
   outputs = { nixpkgs, ... }:
     let
       forAllSystems = gen:
