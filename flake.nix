@@ -14,6 +14,7 @@
       devShells = forAllSystems (pkgs: {
         default = pkgs.mkShell.override { inherit (pkgs.swiftPackages) stdenv; } {
           buildInputs = [ pkgs.swift pkgs.swiftpm pkgs.swiftpm2nix pkgs.swiftPackages.Foundation ];
+          LD_LIBRARY_PATH = "${pkgs.swiftPackages.Dispatch}/lib";
         };
       });
     };
